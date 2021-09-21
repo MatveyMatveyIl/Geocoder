@@ -13,15 +13,15 @@ def address_parser(input_data):
         house='',
     )
     for el in address:
+        el = el.lower()
         if 'область' in el or 'обл.' in el:
-            parsed_address['region'] = re.split('область|обл.', el)[1].strip()
+            parsed_address['region'] = re.split('область|обл.', el)[1].strip().lower()
         if 'город' in el or 'гор.' in el or 'г.' in el:
-            parsed_address['city'] = re.split('город|гор.|г.', el)[1].strip()
+            parsed_address['city'] = re.split('город|гор.|г.', el)[1].strip().lower()
         if 'район' in el:
-            parsed_address['areas'] = re.split('район|р.', el)[1].strip()
+            parsed_address['areas'] = re.split('район|р.', el)[1].strip().lower()
         if 'улица' in el or 'ул.' in el:
-            parsed_address['street'] = re.split('улица|ул.', el)[1].strip()
+            parsed_address['street'] = re.split('улица|ул.', el)[1].strip().lower()
         if 'дом' in el or 'д.' in el:
-            parsed_address['house'] = re.split('дом|д.', el)[1].strip()
-
+            parsed_address['house'] = re.split('дом|д.', el)[1].strip().lower()
     return parsed_address
