@@ -4,38 +4,66 @@ import pytest
 params = [
     (["обл. А; город Б"],
      dict(
-         region='а',
-         city='б',
-         areas='',
+         region='А',
+         city='Б',
          street='',
          house='',
      )
      ),
     (["область А; город Б, район С;улица Й, дом 3"],
      dict(
-         region='а',
-         city='б',
-         areas='с',
-         street='й',
+         region='А',
+         city='Б',
+         street='Й',
          house='3',
      )
      ),
     (["обл. А; г. Б, район С;ул. Й, д. 3"],
      dict(
-         region='а',
-         city='б',
-         areas='с',
-         street='й',
+         region='А',
+         city='Б',
+         street='Й',
          house='3',
      )
      ),
-    (["ОБЛАСТЬ а, ГОР. б"],
+    ([""],
+     dict(
+         region='',
+         city='',
+         street='',
+         house='',
+     )
+     ),
+    (["обл. а; город б"],
      dict(
          region='а',
          city='б',
-         areas='',
          street='',
          house='',
+     )
+     ),
+    (["дом 3; город Б; обл. А, улица С"],
+     dict(
+         region='А',
+         city='Б',
+         street='С',
+         house='3',
+     )
+     ),
+    (["aaaaaaaaaa -update"],
+     dict(
+         region='',
+         city='',
+         street='',
+         house='',
+     )
+     ),
+    (["дом 3; город Б; А область, улица С"],
+     dict(
+         region='А',
+         city='Б',
+         street='С',
+         house='3',
      )
      ),
 ]
