@@ -2,7 +2,7 @@ from utils.input_parser import address_parser
 import pytest
 
 params = [
-    (["обл. А; город Б"],
+    ("обл. А; город Б",
      dict(
          region='А',
          city='Б',
@@ -10,7 +10,7 @@ params = [
          house='',
      )
      ),
-    (["область А; город Б, район С;улица Й, дом 3"],
+    ("область А; город Б, район С;улица Й, дом 3",
      dict(
          region='А',
          city='Б',
@@ -18,7 +18,7 @@ params = [
          house='3',
      )
      ),
-    (["обл. А; г. Б, район С;ул. Й, д. 3"],
+    ("обл. А; г. Б, район С;ул. Й, д. 3",
      dict(
          region='А',
          city='Б',
@@ -26,7 +26,7 @@ params = [
          house='3',
      )
      ),
-    ([""],
+    ("",
      dict(
          region='',
          city='',
@@ -34,7 +34,7 @@ params = [
          house='',
      )
      ),
-    (["обл. а; город б"],
+    ("обл. а; город б",
      dict(
          region='а',
          city='б',
@@ -42,7 +42,7 @@ params = [
          house='',
      )
      ),
-    (["дом 3; город Б; обл. А, улица С"],
+    ("дом 3; город Б; обл. А, улица С",
      dict(
          region='А',
          city='Б',
@@ -50,7 +50,7 @@ params = [
          house='3',
      )
      ),
-    (["aaaaaaaaaa -update"],
+    ("aaaaaaaaaa -update",
      dict(
          region='',
          city='',
@@ -58,7 +58,7 @@ params = [
          house='',
      )
      ),
-    (["дом 3; город Б; А область, улица С"],
+    ("дом 3; город Б; А область, улица С",
      dict(
          region='А',
          city='Б',

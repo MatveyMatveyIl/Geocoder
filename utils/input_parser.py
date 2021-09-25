@@ -2,8 +2,6 @@ import re
 
 
 def address_parser(input_data):
-    #input_data = ' '.join(input_data)
-    #print(input_data)
     pattern = ';|,|/'
     address = re.split(pattern, input_data)
     parsed_address = dict(
