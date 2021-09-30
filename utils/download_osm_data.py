@@ -1,31 +1,45 @@
 import overpy
-from utils.handling_addresses import handling_addresses
+import sys
+import requests
 
 
 def download_city_address(name):
-    global res
     api = overpy.Overpass()
     query = (
-        f'[out:json][timeout:100000];(area[name="{name}"]->.a;node(area.a)["addr:street"];way(area.a)["addr:street"];relation(area.a)["addr:street"];);out body; >; out skel qt;')
-    # try:
-    res = api.query(query)
-    # except Exception:
-    #     print('Ошибка сервера OSM. Запустите еще раз.')
-    #     sys.exit(0)
+        f'[out:json][timeout:10000];(area[name="{name}"]->.a;node(area.a)["addr:street"];way(area.a)["addr:street"];relation(area.a)["addr:street"];);out body; >; out skel qt;')
+    try:
+        osm_json = api.query(query)
+    except overpy.exception.OverpassTooManyRequests:
+        print('Ошибка сервера OSM. Запустите еще раз.')
+        sys.exit(0)
+    except overpy.exception.OverpassGatewayTimeout:
+        print('Ошибка сервера OSM. Запустите еще раз.')
+        sys.exit(0)
+    finally:
+        requests.get(r'http://overpass-api.de/api/kill_my_queries')
     addresses = set()
-    coordinates = dict()
-    for address in res.nodes:
+    for address in osm_json.nodes:
         if len(address.tags) != 0:
             address.tags['lat'] = address.lat
             address.tags['lon'] = address.lon
             addresses.add(address)
-        else:
-            coordinates[address.id] = [address.lat, address.lon]
 
-    for cells in [res.ways, res.relations, res.areas]:
+    for cells in [osm_json.ways, osm_json.relations, osm_json.areas]:
         for address in cells:
             if len(address.tags) != 0:
                 addresses.add(address)
-    print(len(addresses))
-    print(len(coordinates))
-    handling_addresses(addresses, coordinates)
+    full_city_addresses = handling_addresses(addresses)
+
+
+def handling_addresses(addresses: set):
+    for address in addresses:
+        try:
+            if address.nodes:
+                address.tags['lat'] = address.nodes[0].lat
+                address.tags['lon'] = address.nodes[0].lon
+        except AttributeError:
+            continue
+    parsed_city_addresses = set()
+    for address in addresses:
+        parsed_city_addresses.add(str(address.tags))
+    return parsed_city_addresses
