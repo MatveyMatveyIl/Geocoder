@@ -9,7 +9,7 @@ def run():
         address = address_parser(args.address)
     elif args.download:
         city_name = args.download
-        download_city_address(city_name)
+        full_city_addresses = download_city_address(city_name)
 
 
 if __name__ == '__main__':

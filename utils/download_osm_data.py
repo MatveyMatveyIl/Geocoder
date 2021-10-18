@@ -20,8 +20,8 @@ def download_city_address(name):
     addresses = set()
     for address in osm_json.nodes:
         if len(address.tags) != 0:
-            address.tags['lat'] = address.lat
-            address.tags['lon'] = address.lon
+            address.tags['lat'] = str(address.lat)
+            address.tags['lon'] = str(address.lon)
             addresses.add(address)
 
     for cells in [osm_json.ways, osm_json.relations, osm_json.areas]:
@@ -29,6 +29,8 @@ def download_city_address(name):
             if len(address.tags) != 0:
                 addresses.add(address)
     full_city_addresses = handling_addresses(addresses)
+   # print(full_city_addresses)
+    return full_city_addresses
 
 
 def handling_addresses(addresses: set):
@@ -41,5 +43,6 @@ def handling_addresses(addresses: set):
             continue
     parsed_city_addresses = set()
     for address in addresses:
-        parsed_city_addresses.add(str(address.tags))
+        full_address = str(address.tags).replace('Decimal(', '').replace(')', '').replace("'", '"')
+        parsed_city_addresses.add(full_address)
     return parsed_city_addresses
