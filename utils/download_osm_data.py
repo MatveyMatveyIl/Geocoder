@@ -68,14 +68,13 @@ def find_region_of_city(name):
                              re.DOTALL)
     try:
         second_search = re.search(rf'title="{name}(.+?)data-sort-value', first_search.group(1))
+        region = re.search(r'</td><td align="left">(.+?)</td><td align="left">', second_search.group(1))
     except AttributeError:
-        print("Неверный город. Проверьте название")
-        sys.exit(0)
-    region = re.search(r'</td><td align="left">(.+?)</td><td align="left">', second_search.group(1))
+        raise ValueError("Неверный город. Проверьте название")
     if 'title' in region.group(1):
-        return re.search(r'title="(.+?)"', region.group(1)).group(1)
+        return re.search(r'title="(.+?)"', region.group(1)).group(1).strip()
     else:
-        return region.group(1)
+        return region.group(1).strip()
 
 
 def check_to_add(address):
