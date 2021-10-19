@@ -56,7 +56,8 @@ def handling_addresses(addresses: set, region):
             full_address = str(address).replace('Decimal(', '').replace(')', '').replace('"', '').replace("'", '"')
             parsed_city_addresses.add(full_address)
     if len(parsed_city_addresses) == 0:
-        raise ValueError("Неверный город. Прверьте название")
+        print("Неверный город. Проверьте название")
+        sys.exit(0)
     return parsed_city_addresses
 
 
@@ -68,7 +69,8 @@ def find_region_of_city(name):
     try:
         second_search = re.search(rf'title="{name}(.+?)data-sort-value', first_search.group(1))
     except AttributeError:
-        raise ValueError("Неверный город")
+        print("Неверный город. Проверьте название")
+        sys.exit(0)
     region = re.search(r'</td><td align="left">(.+?)</td><td align="left">', second_search.group(1))
     if 'title' in region.group(1):
         return re.search(r'title="(.+?)"', region.group(1)).group(1)

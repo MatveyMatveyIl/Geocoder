@@ -28,7 +28,3 @@ def define_address_arg(pattern, address_element):
     for el in parsed_el:
         if len(el.strip()):
             return el.strip()
-
-
-def check_input_data(input_data):
-    pass

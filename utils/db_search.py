@@ -10,7 +10,7 @@ def searching_db(input_address: dict):
                     Address.street == input_address['street'],
                     Address.house_number == input_address['house']).first())
     if query is None:
-        print("такого аддреса не существует")
+        print("такого адреса не существует")
     else:
         return convert_to_json(query)
 
