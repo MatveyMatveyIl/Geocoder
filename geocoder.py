@@ -1,15 +1,19 @@
 from utils.input_parser import address_parser
 from utils.arg_parser import init_parser
 from utils.download_osm_data import download_city_address
+from utils.db_fill import filling_db
+from utils.db_search import searching_db
 
 
 def run():
     args = init_parser()
     if args.address:
         address = address_parser(args.address)
+        searching_db(address)
     elif args.download:
         city_name = args.download
         full_city_addresses = download_city_address(city_name)
+        filling_db(full_city_addresses, city_name)
 
 
 if __name__ == '__main__':
