@@ -9,7 +9,8 @@ def run():
     args = init_parser()
     if args.address:
         address = address_parser(args.address)
-        searching_db(address)
+        full_address = searching_db(address)
+        print(full_address)
     elif args.download:
         city_name = args.download
         full_city_addresses = download_city_address(city_name)
