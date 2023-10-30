@@ -1,11 +1,11 @@
 import sys
 
-from utils.input_parser import address_parser
 from utils.arg_parser import init_parser
-from utils.download_osm_data import download_city_address
 from utils.db_fill import filling_db
+from utils.db_model import Address, session
 from utils.db_search import searching_db
-from utils.db_model import session, Address
+from utils.download_osm_data import download_city_address
+from utils.input_parser import address_parser
 
 
 def run():
@@ -16,8 +16,11 @@ def run():
         print(full_address)
     elif args.download:
         city_name = args.download
-        if session.query(Address).filter(Address.city == city_name).count() != 0:
-            print('>>>Город уже скачан')
+        if (
+            session.query(Address).filter(Address.city == city_name).count()
+            != 0
+        ):
+            print(">>>Город уже скачан")
             sys.exit(0)
         print(">>>Скачивание города")
         full_city_addresses = download_city_address(city_name)
@@ -25,5 +28,5 @@ def run():
         print(">>>Город скачан")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()
